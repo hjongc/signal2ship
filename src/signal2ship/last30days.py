@@ -11,6 +11,14 @@ from typing import Final, override
 SKILL_DIR_ENV: Final = "SIGNAL2SHIP_LAST30DAYS_SKILL_DIR"
 INSTALL_COMMAND: Final = "npx skills add mvanhorn/last30days-skill -g"
 DEFAULT_SKILL_DIR: Final = Path.home() / ".codex" / "skills" / "last30days"
+TRUSTSTORE_RUNNER: Final = (
+    "import runpy, sys\n"
+    "import truststore\n"
+    "truststore.inject_into_ssl()\n"
+    "script = sys.argv[1]\n"
+    "sys.argv = sys.argv[1:]\n"
+    "runpy.run_path(script, run_name='__main__')\n"
+)
 
 
 @dataclass(frozen=True, slots=True)
@@ -58,6 +66,8 @@ def run_last30days(topic: str, save_dir: Path) -> Path:
     completed = subprocess.run(  # noqa: S603
         [
             sys.executable,
+            "-c",
+            TRUSTSTORE_RUNNER,
             str(script),
             topic,
             "--save-dir",
