@@ -1,0 +1,29 @@
+.env
+.env.*
+!.env.example
+
+# Local research and generated app outputs can contain large files or private notes.
+outputs/*
+!outputs/*/
+outputs/**/*
+!outputs/**/
+!outputs/**/.gitkeep
+apps/generated/*
+!apps/generated/.gitkeep
+
+# Local agent evidence and uv cache.
+.omo/
+.omx/
+.uv-cache/
+
+# Common local artifacts
+.DS_Store
+.pytest_cache/
+.ruff_cache/
+node_modules/
+.next/
+dist/
+build/
+.venv/
+__pycache__/
+*.pyc

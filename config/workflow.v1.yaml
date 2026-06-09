@@ -1,0 +1,95 @@
+name: Signal2Ship
+version: 0.1.0
+intent: Turn recent market signals into one narrow app MVP preview.
+
+runtime:
+  orchestrator: codex_desktop
+  execution_mode: local_on_demand
+  server_required: false
+  frontend_required: false
+  llm_api_required: true
+  llm_provider: openrouter
+  llm_env_file: .env
+  recommended_model: deepseek/deepseek-v4-flash
+  high_reasoning_model: deepseek/deepseek-v4-pro
+  llm_env:
+    api_key: OPENROUTER_API_KEY
+    flash_model: OPENROUTER_FLASH_MODEL
+    pro_model: OPENROUTER_PRO_MODEL
+    legacy_model: OPENROUTER_MODEL
+    legacy_pro_model: OPENROUTER_MODEL_PRO
+    site_url: OPENROUTER_SITE_URL
+    app_title: OPENROUTER_APP_TITLE
+  remote_platforms:
+    hermes: deferred
+    openclaw: deferred
+
+agents:
+  venture_supervisor:
+    owns:
+      - goal interpretation
+      - task routing
+      - artifact evaluation
+      - revision decisions
+      - human approval gates
+  market_research:
+    owns:
+      - recent signal collection
+      - last30days usage
+      - source index
+      - evidence ledger draft
+  opportunity_analyst:
+    owns:
+      - signal clustering
+      - monetizable pain analysis
+      - opportunity scoring
+      - kill or continue recommendation
+  product_scope:
+    owns:
+      - MVP specification
+      - user stories
+      - task breakdown
+      - scope reduction
+  app_builder:
+    owns:
+      - implementation
+      - local tests
+      - build verification
+      - preview deployment preparation
+  qa_release_critic:
+    owns:
+      - PRD conformance review
+      - functional QA
+      - UX and risk review
+      - release readiness decision
+
+gates:
+  research:
+    minimum_signals: 15
+    require_recent_sources: true
+    require_source_links: true
+    fail_action: request_more_research_or_stop
+  opportunity:
+    require_target_user: true
+    require_buildable_mvp: true
+    require_distribution_path: true
+    fail_action: kill_or_research_again
+  build:
+    max_mvp_scope: one_focused_pass
+    fail_action: reduce_scope
+  release:
+    preview_deploy_bundle_allowed: true
+    preview_deploy_execution_requires_human_approval: true
+    production_deploy_requires_human_approval: true
+    payments_require_human_approval: true
+    public_posts_require_human_approval: true
+
+bounded_execution:
+  max_research_queries: 5
+  max_revisions_per_stage: 2
+  max_selected_ideas: 1
+  generated_app_stack:
+    - Next.js
+    - TypeScript
+    - Tailwind
+    - OCI preview bundle
