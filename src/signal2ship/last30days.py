@@ -46,6 +46,11 @@ def resolve_skill_dir() -> Path:
     configured = os.environ.get(SKILL_DIR_ENV)
     if configured is not None and configured != "":
         return Path(configured)
+    if DEFAULT_SKILL_DIR.is_dir():
+        return DEFAULT_SKILL_DIR
+    legacy_dir = Path.home() / ".agents" / "skills" / "last30days"
+    if legacy_dir.is_dir():
+        return legacy_dir
     return DEFAULT_SKILL_DIR
 
 

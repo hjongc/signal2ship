@@ -76,3 +76,36 @@ def _make_last30days_signal_block(
         f"Confidence: {signal['confidence']}\n"
         f"Validation Needed: {signal['validation_needed']}"
     )
+
+
+def make_last30days_markdown_v3(
+    *,
+    signal_count: int = 2,
+) -> str:
+    signals = [
+        (
+            "# last30days v3.3.2: AI tooling for solo builders\n\n"
+            "- Date range: 2026-05-10 to 2026-06-09\n\n"
+            "## Resolved Entities\n\n"
+        )
+    ]
+
+    for index in range(signal_count):
+        title = f"Signal title {index + 1}"
+        signal_block = (
+            "".join(
+                [
+                    f"### {index + 1}. {title} ",
+                    f"(score {9 - index}, 1 item, sources: Reddit)\n",
+                    f"1. [reddit] {title}\n",
+                    f"   - 2026-06-0{index + 1} | reddit | [10pts, 2cmt, 100views] ",
+                    f"| score:{9 - index}\n",
+                    "   - URL: https://www.reddit.com/r/test/comments/",
+                    f"{index + 1}/",
+                    "example\n",
+                    f"   - Evidence: {title} user reports pain.\n",
+                ]
+            )
+        )
+        signals.append(signal_block)
+    return "\n\n".join(signals)
